@@ -2,8 +2,10 @@ from scapy.all import *
 from scapy.contrib import gtp
 from scapy.contrib.gtp_v2 import *
 from scapy.all import conf
+from scapy.layers.inet import IP, UDP, Ether
 from ipaddress import IPv4Address, IPv4Network, AddressValueError
 import logging
+from time import time
 
 def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
     apn_length = len(apn) + 1
@@ -98,46 +100,46 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
                     AMBR_Uplink=314573,
                     AMBR_Downlink=314573,
                 ),
-                IE_PCO(
-                    ietype=78,
-                    length=50,
-                    CR_flag=0,
-                    instance=0,
-                    Extension=1,
-                    SPARE=0,
-                    PPP=0,
-                    Protocols=[
-                        PCO_IPCP(
-                            length=16,
-                            PPP=PCO_PPP(
-                                Code=1,
-                                Identifier=0,
-                                length=16,
-                                Options=[
-                                    PCO_Primary_DNS(length=6, address="0.0.0.0"),
-                                    PCO_Secondary_DNS(length=6, address="0.0.0.0"),
-                                ],
-                            ),
-                        ),
-                        PCO_DNS_Server_IPv4(length=0),
-                        PCO_DNS_Server_IPv6(length=0),
-                        PCO_IP_Allocation_via_NAS(length=0),
-                        PCO_SOF(length=0),
-                        PCO_IPv4_Link_MTU_Request(length=0),
-                        PCO_PasswordAuthentificationProtocol(
-                            length=12,
-                            PPP=PCO_PPP_Auth(
-                                Code=1,
-                                Identifier=0,
-                                length=12,
-                                PeerID_length=3,
-                                PeerID="mts",
-                                Password_length=3,
-                                Password="mts",
-                            ),
-                        ),
-                    ],
-                ),
+                # IE_PCO(
+                #     ietype=78,
+                #     length=50,
+                #     CR_flag=0,
+                #     instance=0,
+                #     Extension=1,
+                #     SPARE=0,
+                #     PPP=0,
+                #     Protocols=[
+                #         PCO_IPCP(
+                #             length=16,
+                #             PPP=PCO_PPP(
+                #                 Code=1,
+                #                 Identifier=0,
+                #                 length=16,
+                #                 Options=[
+                #                     PCO_Primary_DNS(length=6, address="0.0.0.0"),
+                #                     PCO_Secondary_DNS(length=6, address="0.0.0.0"),
+                #                 ],
+                #             ),
+                #         ),
+                #         PCO_DNS_Server_IPv4(length=0),
+                #         PCO_DNS_Server_IPv6(length=0),
+                #         PCO_IP_Allocation_via_NAS(length=0),
+                #         PCO_SOF(length=0),
+                #         PCO_IPv4_Link_MTU_Request(length=0),
+                #         PCO_PasswordAuthentificationProtocol(
+                #             length=12,
+                #             PPP=PCO_PPP_Auth(
+                #                 Code=1,
+                #                 Identifier=0,
+                #                 length=12,
+                #                 PeerID_length=3,
+                #                 PeerID="mts",
+                #                 Password_length=3,
+                #                 Password="mts",
+                #             ),
+                #         ),
+                #     ],
+                # ),
                 IE_BearerContext(
                     ietype=93,
                     length=44,
@@ -190,12 +192,42 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
     return base_pkt
 
 
-def fire(interface,base_pkt):
+def fire_recive(interface,base_pkt):
     try:
         s = conf.L3socket(iface=interface)
     except OSError as e :
         logging.error(f"Error: {e}")
         logging.error(f"No such interface: {interface}")
         exit(1)
+    
+    teid = base_pkt[GTPHeader].teid    
     s.send(base_pkt)
-    return 1 
+    
+    response = parse_response(teid,s)
+    pdn_ip_address= parse_ipv4_address(response)
+    
+    return pdn_ip_address
+
+def parse_response(teid,s):
+    start_time = time()
+    timeout=10
+    while time() - start_time <= timeout:
+        response = s.recv(4096)
+        if (
+            response is not None
+            and IP in response
+            and UDP in response
+            and GTPHeader in response
+            and response[GTPHeader].teid == teid
+        ):
+            return response
+    return None
+    
+def parse_ipv4_address(response):
+    gtp_response = response[GTPHeader]
+    ie_list = gtp_response[GTPV2CreateSessionResponse].getfieldval("IE_list")
+    for ie in ie_list:
+            if isinstance(ie, IE_PAA):
+                ipv4_address = IPv4Address(ie.ipv4)
+                return ipv4_address
+    return None
