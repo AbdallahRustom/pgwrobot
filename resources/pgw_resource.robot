@@ -2,10 +2,11 @@
 Library                             OperatingSystem
 *** Variables ***
 ${srs_ip} =                         10.1.1.16
-${pgw_ip} =                         10.1.1.180
-${IMSI} =                           002021234567895
-${mcc} =                            002
-${mnc} =                            02
+${pgw_ip} =                         10.1.1.41
+${IMSI} =                           001011234567895
+${s6bIMSI} =                        001011234567896 
+${mcc} =                            001
+${mnc} =                            01
 ${apn} =                            internet
 ${interface} =                      ens160
 ${csrrattype} =                     ${6}

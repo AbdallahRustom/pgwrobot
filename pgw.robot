@@ -12,7 +12,7 @@ My First Test
 My Second Test
     [Documentation]                Testing S6b interface 
     [Tags]                         Second
-    ${base_pkt} =                  create_session_request    ${srs_ip}    ${pgw_ip}     ${IMSI}     ${mcc}      ${mnc}      ${apn}    ${s6brattype}   ${s6binterfacetype}   ${s6bbearerinterfacetype}    ${s6binstance}     ${s6bport}    
+    ${base_pkt} =                  create_session_request    ${srs_ip}    ${pgw_ip}     ${s6bIMSI}     ${mcc}      ${mnc}      ${apn}    ${s6brattype}   ${s6binterfacetype}   ${s6bbearerinterfacetype}    ${s6binstance}     ${s6bport}    
     ${finalresult} =               Fire Recive     ${interface}    ${base_pkt}   
     Log To Console                 ${finalresult}
     Validate Response              ${finalresult}
