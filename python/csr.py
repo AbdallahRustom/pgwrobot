@@ -7,7 +7,7 @@ from ipaddress import IPv4Address, IPv4Network, AddressValueError
 import logging
 from time import time
 
-def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
+def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn,rattype,interfacetype,bearerinterfacetype,instance,port):
     apn_length = len(apn) + 1
     base_pkt = (
         IP(
@@ -22,7 +22,7 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
             src=srs_ip,
             dst=pgw_ip,
         )
-        / UDP(sport=36368, dport=2123, chksum=0)
+        / UDP(sport=port, dport=2123, chksum=0)
         / GTPHeader(
             seq=5667214,
             version=2,
@@ -58,7 +58,7 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
                 IE_ServingNetwork(
                     ietype=83, length=3, CR_flag=0, instance=0, MCC=mcc, MNC=mnc
                 ),
-                IE_RAT(ietype=82, length=1, CR_flag=0, instance=0, RAT_type=6),
+                IE_RAT(ietype=82, length=1, CR_flag=0, instance=0, RAT_type=rattype),
                 IE_FTEID(
                     ietype=87,
                     length=9,
@@ -66,7 +66,7 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
                     instance=0,
                     ipv4_present=1,
                     ipv6_present=0,
-                    InterfaceType=6,
+                    InterfaceType=interfacetype,
                     GRE_Key=0x00000000,
                     ipv4="192.168.134.129",
                 ),
@@ -151,10 +151,10 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
                             ietype=87,
                             length=9,
                             CR_flag=0,
-                            instance=2,
+                            instance=instance,
                             ipv4_present=1,
                             ipv6_present=0,
-                            InterfaceType=4,
+                            InterfaceType=bearerinterfacetype,
                             GRE_Key=0xD56DC018,
                             ipv4="192.168.134.129",
                         ),
@@ -191,7 +191,6 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn):
     )
     return base_pkt
 
-
 def fire_recive(interface,base_pkt):
     try:
         s = conf.L3socket(iface=interface)
@@ -202,9 +201,11 @@ def fire_recive(interface,base_pkt):
     
     teid = base_pkt[GTPHeader].teid    
     s.send(base_pkt)
-    
     response = parse_response(teid,s)
-    pdn_ip_address= parse_ipv4_address(response)
+    if response:
+        pdn_ip_address= parse_ipv4_address(response)
+    else:
+        return None
     
     return pdn_ip_address
 
