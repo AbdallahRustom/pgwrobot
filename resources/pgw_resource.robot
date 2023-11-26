@@ -18,9 +18,36 @@ ${s6bbearerinterfacetype} =         ${31}
 ${csrinstance} =                    ${2}  
 ${s6binstance} =                    ${5}
 ${csrport} =                        ${36368}
-${s6bport} =                        ${36369}                 
+${s6bport} =                        ${36369}
+${ip_address}=                      Set Variable    ${EMPTY}
+${gre_key}=                         Set Variable    ${EMPTY}
+${s6b_ip_address}=                  Set Variable    ${EMPTY}
+${s6b_gre_key}=                     Set Variable    ${EMPTY}
+${cause}=                           Set Variable    ${EMPTY}
+${modifiy_sess_gre_key}=            Set Variable    ${EMPTY}                  
 *** Keywords ***
 Validate Response
     [Arguments]                    ${response}
-    Should Not Be Equal As Strings  ${response}  None     # Check if the response is None
-    Should Not Be Equal As Strings  ${response}  0.0.0.0  # Check if the response is "0.0.0.0"
+    Should Not Be Equal As Strings  ${response}  None     
+    Should Not Be Equal As Strings  ${response}  0.0.0.0  
+Set IPAddress and GREID
+    [Arguments]                     ${finalresult}
+    ${ip_address}=                  Set Variable    ${finalresult[0]}
+    ${gre_key}=                     Set Variable    ${finalresult[1]}
+    Set Suite Variable              ${ip_address}    
+    Set Suite Variable              ${gre_key}
+Set s6bIPAddress and s6bGREID
+    [Arguments]                     ${finalresult}
+    ${s6b_ip_address}=              Set Variable    ${finalresult[0]}
+    ${s6b_gre_key}=                 Set Variable    ${finalresult[1]}
+    Set Suite Variable              ${s6b_ip_address}    
+    Set Suite Variable              ${s6b_gre_key}
+Set Cause and modify GREID
+    [Arguments]                     ${finalresult}
+    ${cause}=                       Set Variable    ${finalresult[0]}
+    ${modifiy_sess_gre_key}=        Set Variable    ${finalresult[1]}
+    Set Suite Variable              ${cause}    
+    Set Suite Variable              ${modifiy_sess_gre_key}
+Validate Cause
+    [Arguments]                    ${response}
+    Should Be Equal                ${response}  ${16}     

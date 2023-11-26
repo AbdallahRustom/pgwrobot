@@ -191,6 +191,166 @@ def create_session_request(srs_ip,pgw_ip,IMSI,mcc,mnc,apn,rattype,interfacetype,
     )
     return base_pkt
 
+def modify_bearer_request(srs_ip,pgw_ip,port,gre_key):
+    base_pkt = (
+        IP(
+            version=4,
+            ihl=5,
+            tos=0,
+            id=0,
+            flags=0,
+            frag=0,
+            ttl=255,
+            proto=17,
+            src=srs_ip,
+            dst=pgw_ip,
+        )
+        / UDP(sport=port, dport=2123, chksum=0)
+        / GTPHeader(
+            seq=5667215,
+            version=2,
+            P=0,
+            T=1,
+            MP=0,
+            SPARE1=0,
+            SPARE2=0,
+            gtp_type=34,
+            teid=gre_key,
+            SPARE3=0,
+        )
+        / IE_BearerContext(
+            ietype=93,
+            length=18,
+            CR_flag=0,
+            instance=0,
+            IE_list=[
+                IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=5),
+                IE_FTEID(
+                    ietype=87,
+                    length=9,
+                    CR_flag=0,
+                    instance=0,
+                    ipv4_present=1,
+                    ipv6_present=0,
+                    InterfaceType=0,
+                    GRE_Key=0xD56DC020,
+                    ipv4="192.168.134.50",
+                ),
+            ]
+        )           
+    )
+    return base_pkt
+
+def delete_session_request(srs_ip,pgw_ip,mcc,mnc,gre_key,port):
+    base_pkt = (
+        IP(
+            version=4,
+            ihl=5,
+            tos=0,
+            id=0,
+            flags=0,
+            frag=0,
+            ttl=255,
+            proto=17,
+            src=srs_ip,
+            dst=pgw_ip,
+        )
+        / UDP(sport=port, dport=2123, chksum=0)
+        / GTPHeader(
+            seq=5667216,
+            version=2,
+            P=0,
+            T=1,
+            MP=0,
+            SPARE1=0,
+            SPARE2=0,
+            gtp_type=36,
+            teid=gre_key,
+            SPARE3=0,
+        )
+        / GTPV2DeleteSessionRequest(
+            IE_list=[
+                IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=5),
+                IE_ULI(
+                    ietype=86,
+                    length=13,
+                    CR_flag=0,
+                    instance=0,
+                    SPARE=0,
+                    LAI_Present=0,
+                    ECGI_Present=1,
+                    TAI_Present=1,
+                    RAI_Present=0,
+                    SAI_Present=0,
+                    CGI_Present=0,
+                    TAI=ULI_TAI(MCC=mcc, MNC=mnc, TAC=15404),
+                    ECGI=ULI_ECGI(MCC=mcc, MNC=mnc, SPARE=0, ECI=176130090),
+                ),
+                IE_Indication(
+                    ietype=77, 
+                    length=4,          
+                    CR_flag=0, 
+                    instance=0, 
+                    DAF=0,
+                    DTF=0,
+                    HI=0,
+                    DFI=0,
+                    OI=1,
+                    ISRSI=0,
+                    ISRAI=0,
+                    SGWCI=0,
+                    SQCI=0,
+                    UIMSI=0,
+                    CFSI=0,
+                    CRSI=0,
+                    PS=0,
+                    PT=0,
+                    SI=0,
+                    MSV=0,
+                    RetLoc=0,
+                    PBIC=0,
+                    SRNI=0,
+                    S6AF=0,
+                    S4AF=0,
+                    MBMDT=0,
+                    ISRAU=0,
+                    CCRSI=0,
+                    CPRAI=0,
+                    ARRL=0,
+                    PPOFF=0,
+                    PPON=0,
+                    PPSI=0,
+                    CSFBI=0,
+                    CLII=0,
+                    CPSR=0,
+                    NSI=0,
+                    UASI=0,
+                    DTCI=0,
+                    BDWI=0,
+                    PSCI=0,
+                    PCRI=0,
+                    AOSI=0,
+                    AOPI=0,
+                    ROAAI=0,
+                    EPCOSI=0,
+                    CPOPCI=0,
+                    PMTSMI=0,
+                    S11TF=0,
+                    PNSI=0,
+                    UNACCSI=0,
+                    WPMSI=0,
+                    REPREFI=0,
+                    EEVRSI=0,
+                    LTEMUI=0,
+                    LTEMPI=0,
+                    ENBCRSI=0,
+                    TSPCMI=0,    
+                ),  
+            ]
+        )
+    )
+    return base_pkt
+
 def fire_recive(interface,base_pkt):
     try:
         s = conf.L3socket(iface=interface)
@@ -199,17 +359,26 @@ def fire_recive(interface,base_pkt):
         logging.error(f"No such interface: {interface}")
         exit(1)
     
-    teid = base_pkt[GTPHeader].teid    
+    # teid = base_pkt[GTPHeader].teid    
     s.send(base_pkt)
-    response = parse_response(teid,s)
-    if response:
-        pdn_ip_address= parse_ipv4_address(response)
-    else:
-        return None
+    response = parse_response(s)
     
-    return pdn_ip_address
+    if GTPV2CreateSessionResponse in response:
+        pdn_ip_address= parse_ipv4_address(response)
+        gre_key = parse_gre_key_from_response(response)
+        return pdn_ip_address ,gre_key
 
-def parse_response(teid,s):
+    if GTPV2ModifyBearerResponse in response:
+        cause_and_teid=  cause_modify_bearer_response(response)
+        return cause_and_teid
+    
+    if GTPV2DeleteSessionResponse in response:
+        Cause=cause_delete_session_response(response)
+        return Cause
+    
+    return None
+
+def parse_response(s):
     start_time = time()
     timeout=10
     while time() - start_time <= timeout:
@@ -219,7 +388,7 @@ def parse_response(teid,s):
             and IP in response
             and UDP in response
             and GTPHeader in response
-            and response[GTPHeader].teid == teid
+            # and response[GTPHeader].teid == teid
         ):
             return response
     return None
@@ -232,3 +401,19 @@ def parse_ipv4_address(response):
                 ipv4_address = IPv4Address(ie.ipv4)
                 return ipv4_address
     return None
+
+def parse_gre_key_from_response(response):
+    fteid_ie = response[GTPV2CreateSessionResponse].getlayer(IE_FTEID)
+    if fteid_ie:
+        gre_key = fteid_ie.GRE_Key
+        return gre_key
+    return None
+    
+def cause_modify_bearer_response(response):
+    IE_Cause= response[GTPV2ModifyBearerResponse].IE_list[0].Cause
+    teid=response[GTPHeader].teid
+    return IE_Cause,teid
+
+def cause_delete_session_response(response):
+    IE_Cause= response[GTPV2DeleteSessionResponse].IE_list[0].Cause
+    return IE_Cause
