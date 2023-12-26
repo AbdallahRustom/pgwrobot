@@ -16,10 +16,10 @@ CCRDest_realm = None
 CCRueIp = None
 clientsocket= None
 
-diameter_host ="hss01.localdomian"                                                        #Diameter Host of this Machine
+diameter_host ="hss01.localdomain"                                                        #Diameter Host of this Machine
 realm ="localdomain"                                         #Diameter Realm of this machine
-DestinationHost = "smf.localdomian"                                             #Diameter Host of Destination
-DestinationRealm = "localdomian"                                                #Diameter Realm of Destination
+DestinationHost = "smf.localdomain"                                             #Diameter Host of Destination
+DestinationRealm = "localdomain"                                                #Diameter Realm of Destination
 hostname = "127.0.0.4"                                                         #IP of Remote Diameter Host
 mcc = "001"                                                                     #Mobile Country Code
 mnc = "01"                                                                      #Mobile Network Code
