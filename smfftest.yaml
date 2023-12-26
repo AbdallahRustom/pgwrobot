@@ -8,15 +8,15 @@ global:
 #    peer: 64
 
 smf:
-# sbi:
-#   server:
-#     - address: 127.0.0.4
-#       port: 7777
-#    client:
-#      nrf:
-#        - uri: http://127.0.0.10:7777
-#     scp:
-#        - uri: http://127.0.0.200:7777
+#   sbi:
+#     server:
+#       - address: 127.0.0.4
+#         port: 7777
+#     client:
+# #      nrf:
+# #        - uri: http://127.0.0.10:7777
+#       scp:
+#         - uri: http://127.0.0.200:7777
   pfcp:
     server:
       - address: 127.0.0.4
