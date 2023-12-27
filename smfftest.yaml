@@ -1,5 +1,5 @@
 logger:
-  file: @localstatedir@/log/open5gs/smf.log
+  file: /open5gs/install/var/log/open5gs/smf.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
@@ -8,15 +8,15 @@ global:
 #    peer: 64
 
 smf:
-#   sbi:
-#     server:
-#       - address: 127.0.0.4
-#         port: 7777
-#     client:
-# #      nrf:
-# #        - uri: http://127.0.0.10:7777
-#       scp:
-#         - uri: http://127.0.0.200:7777
+#  sbi:
+#    server:
+#      - address: 127.0.0.4
+#        port: 7777
+#    client:
+#      nrf:
+#        - uri: http://127.0.0.10:7777
+#      scp:
+#        - uri: http://127.0.0.200:7777
   pfcp:
     server:
       - address: 127.0.0.4
@@ -47,7 +47,7 @@ smf:
 #    - ::1
 #  ctf:
 #    enabled: auto   # auto(default)|yes|no
-  freeDiameter: @sysconfdir@/freeDiameter/smf.conf
+  freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
 
 ################################################################################
 # SMF Info
@@ -229,11 +229,11 @@ smf:
 #    tls:
 #      server:
 #        scheme: https
-#        private_key: @sysconfdir@/open5gs/tls/smf.key
-#        cert: @sysconfdir@/open5gs/tls/smf.crt
+#        private_key: /open5gs/install/etc/open5gs/tls/smf.key
+#        cert: /open5gs/install/etc/open5gs/tls/smf.crt
 #      client:
 #        scheme: https
-#        cacert: @sysconfdir@/open5gs/tls/ca.crt
+#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
 #  sbi:
 #    server:
 #      - address: smf.localdomain
@@ -246,15 +246,15 @@ smf:
 #    tls:
 #      server:
 #        scheme: https
-#        private_key: @sysconfdir@/open5gs/tls/smf.key
-#        cert: @sysconfdir@/open5gs/tls/smf.crt
+#        private_key: /open5gs/install/etc/open5gs/tls/smf.key
+#        cert: /open5gs/install/etc/open5gs/tls/smf.crt
 #        verify_client: true
-#        verify_client_cacert: @sysconfdir@/open5gs/tls/ca.crt
+#        verify_client_cacert: /open5gs/install/etc/open5gs/tls/ca.crt
 #      client:
 #        scheme: https
-#        cacert: @sysconfdir@/open5gs/tls/ca.crt
-#        client_private_key: @sysconfdir@/open5gs/tls/smf.key
-#        client_cert: @sysconfdir@/open5gs/tls/smf.crt
+#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#        client_private_key: /open5gs/install/etc/open5gs/tls/smf.key
+#        client_cert: /open5gs/install/etc/open5gs/tls/smf.crt
 #  sbi:
 #    server:
 #      - address: smf.localdomain
