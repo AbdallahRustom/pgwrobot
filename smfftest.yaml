@@ -1,5 +1,5 @@
 logger:
-  file: /open5gs/install/var/log/open5gs/smf.log
+  file: /builds/abdallah.r.waly/open5gs/install/var/log/open5gs/smf.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
@@ -47,7 +47,7 @@ smf:
 #    - ::1
 #  ctf:
 #    enabled: auto   # auto(default)|yes|no
-  freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
+  freeDiameter: /builds/abdallah.r.waly/open5gs/install/etc/freeDiameter/smf.conf
 
 ################################################################################
 # SMF Info
