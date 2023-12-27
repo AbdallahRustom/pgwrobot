@@ -622,13 +622,13 @@ smf:
       - 2001:4860:4860::8888
       - 2001:4860:4860::8844
     mtu: 1400
-    ctf:
-      enabled: auto
+    # ctf:
+    #   enabled: auto
     cdr:
       enabled: True
       file_capture_period_sec: 1800
       reporting_period_sec: 10
-      log_dir: /var/log/open5gs
+      log_dir: /builds/abdallah.r.waly/open5gs/cdr/smf
       sgw_name: PGW-01
     freeDiameter: /builds/abdallah.r.waly/open5gs/install/etc/freeDiameter/smf.conf
 
