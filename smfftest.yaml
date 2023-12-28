@@ -20,7 +20,7 @@
 #    domain: core,sbi,ausf,event,tlv,mem,sock
 #
 logger:
-    file: /builds/abdallah.r.waly/open5gs/install/var/log/open5gs/smf.log
+    file: /builds/abdallah.r.waly/open5gsv1/install/var/log/open5gsv1/smf.log
 
 #
 #  o TLS enable/disable
@@ -46,30 +46,30 @@ logger:
 #  sbi:
 #    client:
 #      no_verify: true
-#      key: /etc/open5gs/tls/amf.key
-#      cert: /etc/open5gs/tls/amf.crt
+#      key: /etc/open5gsv1/tls/amf.key
+#      cert: /etc/open5gsv1/tls/amf.crt
 #
 #  o Use the specified certificate while verifying the client
 #  sbi:
 #    server
-#      cacert: /etc/open5gs/tls/ca.crt
+#      cacert: /etc/open5gsv1/tls/ca.crt
 #
 #  o Use the specified certificate while verifying the server
 #  sbi:
 #    client
-#      cacert: /etc/open5gs/tls/ca.crt
+#      cacert: /etc/open5gsv1/tls/ca.crt
 #
 sbi:
     server:
       no_tls: true
-      cacert: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/ca.crt
-      key: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/smf.key
-      cert: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/smf.crt
+      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/ca.crt
+      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.key
+      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.crt
     client:
       no_tls: true
-      cacert: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/ca.crt
-      key: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/smf.key
-      cert: /builds/abdallah.r.waly/open5gs/install/etc/open5gs/tls/smf.crt
+      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/ca.crt
+      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.key
+      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.crt
 
 #
 #  <SBI Server>
@@ -95,8 +95,8 @@ sbi:
 #  o SBI Server(https://<all address available>:443)
 #  sbi:
 #    server:
-#      key: /etc/open5gs/tls/smf.key
-#      cert: /etc/open5gs/tls/smf.crt
+#      key: /etc/open5gsv1/tls/smf.key
+#      cert: /etc/open5gsv1/tls/smf.crt
 #  smf:
 #    sbi:
 #
@@ -104,8 +104,8 @@ sbi:
 #  sbi:
 #    server:
 #      no_verify: true
-#      key: /etc/open5gs/tls/smf.key
-#      cert: /etc/open5gs/tls/smf.crt
+#      key: /etc/open5gsv1/tls/smf.key
+#      cert: /etc/open5gsv1/tls/smf.crt
 #  smf:
 #    sbi:
 #      - addr: 127.0.0.4
@@ -116,9 +116,9 @@ sbi:
 #
 #  sbi:
 #    server:
-#      cacert: /etc/open5gs/tls/ca.crt
-#      key: /etc/open5gs/tls/smf.key
-#      cert: /etc/open5gs/tls/smf.crt
+#      cacert: /etc/open5gsv1/tls/ca.crt
+#      key: /etc/open5gsv1/tls/smf.key
+#      cert: /etc/open5gsv1/tls/smf.crt
 #  smf:
 #    sbi:
 #      - name: smf.open5gs.org
@@ -628,9 +628,9 @@ smf:
       enabled: True
       file_capture_period_sec: 1800
       reporting_period_sec: 10
-      log_dir: /builds/abdallah.r.waly/open5gs/cdr/smf
+      log_dir: /builds/abdallah.r.waly/open5gsv1/cdr/smf
       sgw_name: PGW-01
-    freeDiameter: /builds/abdallah.r.waly/open5gs/install/etc/freeDiameter/smf.conf
+    freeDiameter: /builds/abdallah.r.waly/open5gsv1/install/etc/freeDiameter/smf.conf
 
 #
 #  <SBI Client>>
@@ -648,8 +648,8 @@ smf:
 #  sbi:
 #    client:
 #      no_verify: true
-#      key: /etc/open5gs/tls/amf.key
-#      cert: /etc/open5gs/tls/amf.crt
+#      key: /etc/open5gsv1/tls/amf.key
+#      cert: /etc/open5gsv1/tls/amf.crt
 #  scp:
 #    sbi:
 #      - addr: 127.0.1.10
@@ -660,9 +660,9 @@ smf:
 #
 #  sbi:
 #    client:
-#      cacert: /etc/open5gs/tls/ca.crt
-#      key: /etc/open5gs/tls/amf.key
-#      cert: /etc/open5gs/tls/amf.crt
+#      cacert: /etc/open5gsv1/tls/ca.crt
+#      key: /etc/open5gsv1/tls/amf.key
+#      cert: /etc/open5gsv1/tls/amf.crt
 #  scp:
 #    sbi:
 #      - name: scp.open5gs.org
@@ -717,8 +717,8 @@ smf:
 #  sbi:
 #    client:
 #      no_verify: true
-#      key: /etc/open5gs/tls/amf.key
-#      cert: /etc/open5gs/tls/amf.crt
+#      key: /etc/open5gsv1/tls/amf.key
+#      cert: /etc/open5gsv1/tls/amf.crt
 #  nrf:
 #    sbi:
 #      - addr: 127.0.0.10
@@ -729,9 +729,9 @@ smf:
 #
 #  sbi:
 #    client:
-#      cacert: /etc/open5gs/tls/ca.crt
-#      key: /etc/open5gs/tls/amf.key
-#      cert: /etc/open5gs/tls/amf.crt
+#      cacert: /etc/open5gsv1/tls/ca.crt
+#      key: /etc/open5gsv1/tls/amf.key
+#      cert: /etc/open5gsv1/tls/amf.crt
 #  nrf:
 #    sbi:
 #      - name: nrf.open5gs.org
