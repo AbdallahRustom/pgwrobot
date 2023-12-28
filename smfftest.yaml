@@ -20,7 +20,7 @@
 #    domain: core,sbi,ausf,event,tlv,mem,sock
 #
 logger:
-    file: /builds/abdallah.r.waly/open5gsv1/install/var/log/open5gsv1/smf.log
+    file: /builds/abdallah.r.waly/open5gsv1/install/var/log/open5gs/smf.log
 
 #
 #  o TLS enable/disable
@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/ca.crt
-      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.key
-      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.crt
+      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/ca.crt
+      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/smf.key
+      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/smf.crt
     client:
       no_tls: true
-      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/ca.crt
-      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.key
-      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gsv1/tls/smf.crt
+      cacert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/ca.crt
+      key: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/smf.key
+      cert: /builds/abdallah.r.waly/open5gsv1/install/etc/open5gs/tls/smf.crt
 
 #
 #  <SBI Server>
