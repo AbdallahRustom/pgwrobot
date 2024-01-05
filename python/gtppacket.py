@@ -255,10 +255,10 @@ def delete_bearer_response(teid,seq):
 
 
 
-def delete_session_request(mcc,mnc,gre_key):
+def delete_session_request(mcc,mnc,gre_key,seq,epi):
     base_pkt = (
         GTPHeader(
-            seq=5667216,
+            seq=seq,
             version=2,
             P=0,
             T=1,
@@ -271,7 +271,7 @@ def delete_session_request(mcc,mnc,gre_key):
         )
         / GTPV2DeleteSessionRequest(
             IE_list=[
-                IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=5),
+                IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=epi),
                 IE_ULI(
                     ietype=86,
                     length=13,

@@ -26,10 +26,15 @@ ${internetepi} =                    ${5}
 ${imsepi} =                         ${6}
 ${internetqci} =                    ${9}
 ${imsqci} =                         ${5}
+${deletesessionseq} =               ${5667216}
+${s6bdeletesessionseq} =            ${5667217}
+${imsdeletesessionseq} =            ${5667218}
 ${ip_address}=                      Set Variable    ${EMPTY}
 ${gre_key}=                         Set Variable    ${EMPTY}
 ${s6b_ip_address}=                  Set Variable    ${EMPTY}
 ${s6b_gre_key}=                     Set Variable    ${EMPTY}
+${ims_ip_address}=                  Set Variable    ${EMPTY}
+${ims_gre_key}=                     Set Variable    ${EMPTY}
 ${cause}=                           Set Variable    ${EMPTY}
 ${modifiy_sess_gre_key}=            Set Variable    ${EMPTY}                  
 ${socket} =                         Set Variable    ${EMPTY}
@@ -52,6 +57,13 @@ Set IPAddress and GREID
     ${gre_key}=                     Set Variable    ${finalresult[2]}
     Set Suite Variable              ${ip_address}    
     Set Suite Variable              ${gre_key}
+Set IMS IPAddress and GREID
+    [Arguments]                     ${finalresult}
+    ${ims_ip_address}=                  Set Variable    ${finalresult[1]}
+    ${ims_gre_key}=                     Set Variable    ${finalresult[2]}
+    Set Suite Variable              ${ims_ip_address}    
+    Set Suite Variable              ${ims_gre_key}
+
 Set s6bIPAddress and s6bGREID
     [Arguments]                     ${finalresult}
     ${s6b_ip_address}=              Set Variable    ${finalresult[1]}
