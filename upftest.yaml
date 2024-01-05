@@ -1,5 +1,5 @@
 logger:
-  file: /home/ubuntu/Desktop/open5gs/install/var/log/open5gs/upf.log
+  file: /builds/abdallah.r.waly/open5gsv1/install/var/log/open5gs/upf.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
