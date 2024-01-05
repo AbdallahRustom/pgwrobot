@@ -18,19 +18,19 @@ upf:
     server:
       - address: 127.0.0.7
 
-  session:
-    - subnet: 10.45.0.1/16
-      dnn: internet
-      dev: ogstun
-    - subnet: 2001:db8:cafe::1/48
-      dnn: internet
-      dev: ogstun
-    - subnet: 10.46.0.1/16
-      dnn: ims
-      dev: ogstun2
-    - subnet: 2001:db8:babe::1/48
-      dnn: ims
-      dev: ogstun2
+  subnet:
+      - subnet: 10.45.0.1/16
+        dnn: internet
+        dev: ogstun
+      - subnet: 2001:db8:cafe::1/48
+        dnn: internet
+        dev: ogstun
+      - subnet: 10.46.0.1/16
+        dnn: ims
+        dev: ogstun2
+      - subnet: 2001:db8:babe::1/48
+        dnn: ims
+        dev: ogstun2
 
   metrics:
     server:
