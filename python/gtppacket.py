@@ -413,8 +413,12 @@ def parse_gre_key_from_response(response):
         return gre_key
     return None
 
-def get_gtp_response(s):
-    data, addr = s.recvfrom(1024)
-    decoded_message=decode_gtpv2_response(data)
-    return decoded_message
+def get_gtp_response(s, 5):
+    s.settimeout(timeout_seconds)
+    try:
+        data, addr = s.recvfrom(1024)
+        decoded_message = decode_gtpv2_response(data)
+        return decoded_message
+    except socket.timeout:
+        return None
         
