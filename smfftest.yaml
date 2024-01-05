@@ -613,7 +613,7 @@ smf:
     metrics:
       - addr: 127.0.0.4
         port: 9090
-    session:
+    subnets:
       - addr: 10.45.0.1/16
         dnn: internet
         dev: ogstun
