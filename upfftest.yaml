@@ -201,16 +201,17 @@ upf:
       - addr: 127.0.0.7
     subnet:
       - addr: 10.45.0.1/16
-       dnn: internet
-     - addr: 2001:db8:cafe::1/48
-       dnn: internet
-       dev: ogstun
-     - addr: 10.46.0.1/16
-       dnn: ims
-       dev: ogstun2
-     - addr: 2001:db8:babe::1/48
-       dnn: ims
-       dev: ogstun2
+        dnn: internet
+        dev: ogstun
+      - addr: 2001:db8:cafe::1/48
+        dnn: internet
+        dev: ogstun
+      - addr: 10.46.0.1/16
+        dnn: ims
+        dev: ogstun2
+      - addr: 2001:db8:babe::1/48
+        dnn: ims
+        dev: ogstun2
     metrics:
       - addr: 127.0.0.7
         port: 9090
