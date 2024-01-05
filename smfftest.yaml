@@ -638,7 +638,7 @@ smf:
       enabled: True
       file_capture_period_sec: 1800
       reporting_period_sec: 10
-      log_dir: /builds/abdallah.r.waly/open5gsv1/cdr/smf
+      log_dir: /builds/abdallah.r.waly/open5gsv1/var/cdr/smf
       sgw_name: PGW-01
     freeDiameter: /builds/abdallah.r.waly/open5gsv1/install/etc/freeDiameter/smf.conf
 
