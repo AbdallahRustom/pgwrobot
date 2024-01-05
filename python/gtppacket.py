@@ -5,7 +5,7 @@ from scapy.layers.inet import UDP
 import socket
 
 
-def create_session_request(IMSI,mcc,mnc,apn,rattype,interfacetype,bearerinterfacetype,instance,seq):
+def create_session_request(IMSI,mcc,mnc,apn,rattype,interfacetype,bearerinterfacetype,instance,seq,epi,qci):
     apn_length = len(apn) + 1
     base_pkt = (
         GTPHeader(
@@ -91,7 +91,7 @@ def create_session_request(IMSI,mcc,mnc,apn,rattype,interfacetype,bearerinterfac
                     CR_flag=0,
                     instance=0,
                     IE_list=[
-                        IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=5),
+                        IE_EPSBearerID(ietype=73, length=1, CR_flag=0, instance=0, EBI=epi),
                         IE_FTEID(
                             ietype=87,
                             length=9,
@@ -113,7 +113,7 @@ def create_session_request(IMSI,mcc,mnc,apn,rattype,interfacetype,bearerinterfac
                             PriorityLevel=3,
                             SPARE2=0,
                             PVI=0,
-                            QCI=9,
+                            QCI=qci,
                             MaxBitRateForUplink=0,
                             MaxBitRateForDownlink=0,
                             GuaranteedBitRateForUplink=0,

@@ -13,7 +13,7 @@ My Initilization
 My first Test
     [Documentation]                Send Create Session Request 
     [Tags]                         First
-    ${base_pkt} =                  create_session_request    ${IMSI}     ${mcc}      ${mnc}      ${apn}    ${csrrattype}   ${csrinterfacetype}    ${bearercsrrattype}    ${csrinstance}    ${csrseq}   
+    ${base_pkt} =                  create_session_request    ${IMSI}     ${mcc}      ${mnc}      ${apn}    ${csrrattype}   ${csrinterfacetype}    ${bearercsrrattype}    ${csrinstance}    ${csrseq}  ${internetepi}     ${internetqci} 
     ${request} =                   send_gtpv2_message        ${socket}       ${pgw_ip}    ${csrport}     ${base_pkt}    
     ${response} =                  get_gtp_response          ${socket}
     Set IPAddress and GREID        ${response}
@@ -21,10 +21,22 @@ My first Test
     Validate Response              ${ip_address}
     # Log To Console                ${response}
     Sleep                          5s
+
+My second Test
+    [Documentation]                Send Create Session Request 
+    [Tags]                         First
+    ${base_pkt} =                  create_session_request    ${IMSI}     ${mcc}      ${mnc}      ${imsapn}    ${csrrattype}   ${csrinterfacetype}    ${bearercsrrattype}    ${csrinstance}    ${imsseq}   ${imsepi}    ${imsqci} 
+    ${request} =                   send_gtpv2_message        ${socket}       ${pgw_ip}    ${csrport}     ${base_pkt}    
+    ${response} =                  get_gtp_response          ${socket}
+    Set IPAddress and GREID        ${response}
+    Log To Console                 ${ip_address}
+    Validate Response              ${ip_address}
+    Log To Console                ${response}
+    Sleep                          5s
 My Second Test
     [Documentation]                Testing S6b interface 
     [Tags]                         Second
-    ${base_pkt} =                  create_session_request    ${s6bIMSI}     ${mcc}      ${mnc}      ${apn}    ${s6brattype}   ${s6binterfacetype}   ${s6bbearerinterfacetype}    ${s6binstance}     ${s6bseq}  
+    ${base_pkt} =                  create_session_request    ${s6bIMSI}     ${mcc}      ${mnc}      ${apn}    ${s6brattype}   ${s6binterfacetype}   ${s6bbearerinterfacetype}    ${s6binstance}     ${s6bseq}  ${internetepi}    ${internetqci}
     ${request} =                   send_gtpv2_message        ${socket}        ${pgw_ip}    ${csrport}     ${base_pkt}   
     ${response} =                  get_gtp_response          ${socket}
     Set s6bIPAddress and s6bGREID  ${response}
