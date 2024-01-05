@@ -18,7 +18,7 @@ upf:
     server:
       - address: 127.0.0.7
 
-  subnet:
+  session:
       - addr: 10.45.0.1/16
         dnn: internet
         dev: ogstun
